@@ -21,3 +21,6 @@ The engine won't crawl all the folders searching for the content, you should exp
 
 *Stylite* < Ecclesiastical Greek `στυλίτης` (`stulítēs`) < from Ancient Greek `στῦλος` (`stûlos`) ‘[column](https://pandas.pydata.org/), pillar’.
 
+## Engine
+
+The site is built, served by a Python http server in `server.py`, prone to infinite customization and tweaking.
