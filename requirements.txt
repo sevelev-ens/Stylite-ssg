@@ -1,0 +1,4 @@
+PyYAML==6.0
+Jinja2==3.0.3
+Markdown
+pandas==1.4.3

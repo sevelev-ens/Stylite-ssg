@@ -1,0 +1,7 @@
+endpoint,template,folder,filename,prev,next,title,author,lang
+/,default,,index.md,,,Main,,fr
+/002/,default,folder/,002.md,/,/about/,Contes,Gilles Pagès,fr
+/search/,default,,search.md,,,Chercher,,fr
+/search.json,search-json,static/,search.json,,,,,
+/404,default,,404.md,,,404,,
+/about/,default,,about.md,,,À propos,,fr

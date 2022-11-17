@@ -1,0 +1,1 @@
+Ce site regroupe les formations des disciplines suivantes : Inter-enseignements technologiques et professionnels, Biochimie Génie Biologique, Économie-gestion, Hôtellerie restauration, Sciences Biologiques et Sciences Sociales Appliquées, Sciences et Techniques Médico-Sociales, Sciences et Technologies Industrielles.

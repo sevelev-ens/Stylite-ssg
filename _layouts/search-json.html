@@ -1,0 +1,14 @@
+[
+  {% for p in site.pages %}
+    {
+
+      "title"    : "{{ p.title | escape }}",
+      "url"      : "{{ site.baseurl }}{{ p.endpoint }}",
+      "category" : "{{ p.category }}",
+      "tags"     : "{{ ', '.join(p.tags) }}",
+      "date"     : "{{ p.date }}",
+      "content"  : "{{ p.content | striptags  | escape }}"
+
+    } {% if not loop.last %},{% endif %}
+  {% endfor %}
+]
