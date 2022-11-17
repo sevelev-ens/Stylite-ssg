@@ -20,7 +20,7 @@ Mention all the pages in the file `central.csv`. Any variable `variable_name` ca
 
 The static files are reported in the file `static.csv` and will be copied to the folder `_site` during the generation with no further transformation.
 
-The engine won't crawl all the folders searching for the content, you should explicitely register the pages in the file `central.csv` and deposit the text content anywhere. All page variables usually put into `yaml` frontmatter should live in `central.csv` as well.
+The engine won't crawl all the folders searching for the content, you should explicitely register the pages in the file `central.csv` and deposit the text content anywhere. The server will convert `md` source to `html` and apply the template stated in the central file.  All page variables usually put into `yaml` frontmatter live in `central.csv` as well.
 
 ## Engine
 
