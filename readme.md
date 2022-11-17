@@ -1,7 +1,8 @@
 # Stylite
 
-**Stylite** is a naive, straightforward and fast static site generator in Python for sites with strong **centralized hierarchy** stored as **tabular file** `.csv`.
+![/static/Stylite.svg]
 
+**Stylite** is a naive, straightforward and fast static site generator in Python for sites with strong **centralized hierarchy** stored as **tabular file** `.csv`.
 
 ### Launch the webserver :
 
@@ -19,8 +20,8 @@ The static files are reported in the file `static.csv` and will be copied to the
 
 The engine won't crawl all the folders searching for the content, you should explicitely register the pages in the file `central.csv` and deposit the text content anywhere. All page variables usually put into `yaml` frontmatter should live in `central.csv` as well.
 
-*Stylite* < Ecclesiastical Greek `στυλίτης` (`stulítēs`) < from Ancient Greek `στῦλος` (`stûlos`) ‘[column](https://pandas.pydata.org/), pillar’.
-
 ## Engine
 
 The site is built, served by a Python http server in `server.py`, prone to infinite customization and tweaking.
+
+*Stylite* < Ecclesiastical Greek *στυλίτης* `stulítēs` < Ancient Greek *στῦλος* `stûlos` ‘[column](https://pandas.pydata.org/), pillar’.
