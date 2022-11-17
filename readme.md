@@ -1,6 +1,7 @@
 # Stylite
 
-![/static/Stylite.svg]
+![](/static/Stylite.svg)
+
 
 **Stylite** is a naive, straightforward and fast static site generator in Python for sites with strong **centralized hierarchy** stored as **tabular file** `.csv`.
 
