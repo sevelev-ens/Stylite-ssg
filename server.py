@@ -23,7 +23,7 @@ try:
 except:
     static = None
 endpoints = set(df["endpoint"])
-static_endpoints = set(static["endpoint"]) if static != None else set([])
+static_endpoints = set(static["endpoint"]) if static is not None else set([])
 templates = {}
 templateLoader = jj.FileSystemLoader(searchpath="_layouts")
 templateEnv = jj.Environment(loader=templateLoader)
@@ -115,7 +115,7 @@ if __name__ == "__main__":
         if len(argv) > 2:
             output_folder = argv[2]
         df.apply(treat_central, output_folder = output_folder, axis = 1)
-        if static != None:
+        if static is not None:
             static.apply(treat_static, output_folder = output_folder, axis = 1)
     else:
         webServer = HTTPServer((hostName, serverPort), MyServer)
