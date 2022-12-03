@@ -7,6 +7,8 @@ import yaml
 from sys import argv
 from pathlib import Path
 import os
+import glob
+from datetime import date
 
 
 # Open the file and load the file
@@ -17,7 +19,7 @@ with open('_site.yml') as f:
 hostName = "localhost"
 serverPort = 8080
 
-df = pd.read_csv("central.csv", keep_default_na = False)
+df = pd.read_csv("central.csv", keep_default_na = False).tail(100)
 try:
     static = pd.read_csv("static.csv")
 except:
@@ -27,6 +29,7 @@ static_endpoints = set(static["endpoint"]) if static is not None else set([])
 templates = {}
 templateLoader = jj.FileSystemLoader(searchpath="_layouts")
 templateEnv = jj.Environment(loader=templateLoader)
+templateEnv.globals["now"] = date.today()
 for temp_name in set(df["template"]):
     templates[temp_name] = templateEnv.get_template(temp_name + ".html")
 
@@ -34,13 +37,25 @@ for temp_name in set(df["template"]):
 pages = []
 for _, page in df.iterrows():
     try:
-        with open(page["folder"] + page["filename"], "r") as fin:
+        with open(page["dir"] + page["filename"], "r") as fin:
             page["content"] = fin.read()
     except:
         page["content"] = ""
     pages += [dict(page)]
 sitedict["pages"] = pages
 #del pages
+
+data = {}
+for filename in glob.glob("_data/*"):
+    file_ext = filename.split(".")[-1]
+    proper_filename = filename.split("/")[-1][:-len(file_ext)-1]
+    if file_ext == "csv":
+        data[proper_filename] = pd.read_csv(filename, keep_default_na=False).to_dict('records')
+    elif file_ext == "yml":
+        with open(filename, "r") as fin:
+            data[proper_filename] = yaml.safe_load(fin)   
+
+sitedict["data"] = data
 
 class MyServer(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -60,7 +75,7 @@ class MyServer(BaseHTTPRequestHandler):
             page = df[df["endpoint"]==self.path].iloc[0]
             
             try:
-                with open(page["folder"] + page["filename"], "r") as fin:
+                with open(page["dir"] + page["filename"], "r") as fin:
                     content = fin.read()
             except:
                 content = ""
@@ -85,7 +100,7 @@ class MyServer(BaseHTTPRequestHandler):
                 self.send_header('Content-type', 'text/html')
             self.end_headers()
             info = static[static["endpoint"]==self.path].iloc[0]
-            with open(info["folder"] + info["filename"], "rb") as fin:
+            with open(info["dir"] + info["filename"], "rb") as fin:
                 self.wfile.write(fin.read())
             
         else:
@@ -98,7 +113,7 @@ def treat_central(page, output_folder = "_site"):
     if page["endpoint"].endswith("/"):
         page["endpoint"] += "index.html"
     try:
-        with open(page["folder"] + page["filename"], "r") as fin:
+        with open(page["dir"] + page["filename"], "r") as fin:
             content = fin.read()
     except:
         content = ""
@@ -111,7 +126,7 @@ def treat_central(page, output_folder = "_site"):
 
 
 def treat_static(info, output_folder = "_site"):
-    with open(info["folder"] + info["filename"], "rb") as fin:
+    with open(info["dir"] + info["filename"], "rb") as fin:
         filename = output_folder + info["endpoint"]
         Path(os.path.dirname(filename)).mkdir(parents=True, exist_ok=True)
         with open(filename, "wb+") as fout:
