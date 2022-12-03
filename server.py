@@ -18,9 +18,12 @@ hostName = "localhost"
 serverPort = 8080
 
 df = pd.read_csv("central.csv", keep_default_na = False)
-static = pd.read_csv("static.csv")
+try:
+    static = pd.read_csv("static.csv")
+except:
+    static = None
 endpoints = set(df["endpoint"])
-static_endpoints = set(static["endpoint"])
+static_endpoints = set(static["endpoint"]) if static != None else set([])
 templates = {}
 templateLoader = jj.FileSystemLoader(searchpath="_layouts")
 templateEnv = jj.Environment(loader=templateLoader)
@@ -112,7 +115,8 @@ if __name__ == "__main__":
         if len(argv) > 2:
             output_folder = argv[2]
         df.apply(treat_central, output_folder = output_folder, axis = 1)
-        static.apply(treat_static, output_folder = output_folder, axis = 1)
+        if static != None:
+            static.apply(treat_static, output_folder = output_folder, axis = 1)
     else:
         webServer = HTTPServer((hostName, serverPort), MyServer)
         print(f"Server started http://{hostName}:{serverPort}")
