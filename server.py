@@ -61,9 +61,9 @@ class MyServer(BaseHTTPRequestHandler):
             
             try:
                 with open(page["folder"] + page["filename"], "r") as fin:
-                    page["content"] = fin.read()
+                    content = fin.read()
             except:
-                page["content"] = ""
+                content = ""
                 
             template = templateEnv.get_template(page["template"] + ".html")
             page["content"] = md.markdown(content)
@@ -99,9 +99,9 @@ def treat_central(page, output_folder = "_site"):
         page["endpoint"] += "index.html"
     try:
         with open(page["folder"] + page["filename"], "r") as fin:
-            page["content"] = fin.read()
+            content = fin.read()
     except:
-            page["content"] = ""
+        content = ""
     template = templateEnv.get_template(page["template"] + ".html")
     page["content"] = md.markdown(content)
     filename = output_folder + page["endpoint"]
