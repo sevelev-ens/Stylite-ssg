@@ -10,7 +10,11 @@
 
 ```python server.py```
 
-### Generate the website into the folder `_site`
+### Generate the website into the folder `folder`
+
+```python server.py build folder```
+
+By default it will output to the folder `_site`:
 
 ```python server.py build```
 
