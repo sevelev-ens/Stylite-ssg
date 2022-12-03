@@ -33,9 +33,12 @@ for temp_name in set(df["template"]):
 
 pages = []
 for _, page in df.iterrows():
-    with open(page["folder"] + page["filename"], "r") as fin:
-        page["content"] = fin.read()
-        pages += [dict(page)]
+    try:
+        with open(page["folder"] + page["filename"], "r") as fin:
+            page["content"] = fin.read()
+    except:
+        page["content"] = ""
+    pages += [dict(page)]
 sitedict["pages"] = pages
 #del pages
 
@@ -56,9 +59,12 @@ class MyServer(BaseHTTPRequestHandler):
             
             page = df[df["endpoint"]==self.path].iloc[0]
             
-            with open(page["folder"] + page["filename"], "r") as fin:
-                content = fin.read()
-            
+            try:
+                with open(page["folder"] + page["filename"], "r") as fin:
+                    page["content"] = fin.read()
+            except:
+                page["content"] = ""
+                
             template = templateEnv.get_template(page["template"] + ".html")
             page["content"] = md.markdown(content)
             self.wfile.write(bytes(template.render({"page": page, "site": sitedict}), "utf-8"))
@@ -91,8 +97,11 @@ class MyServer(BaseHTTPRequestHandler):
 def treat_central(page, output_folder = "_site"):
     if page["endpoint"].endswith("/"):
         page["endpoint"] += "index.html"
-    with open(page["folder"] + page["filename"], "r") as fin:
-        content = fin.read()
+    try:
+        with open(page["folder"] + page["filename"], "r") as fin:
+            page["content"] = fin.read()
+        except:
+            page["content"] = ""
     template = templateEnv.get_template(page["template"] + ".html")
     page["content"] = md.markdown(content)
     filename = output_folder + page["endpoint"]
