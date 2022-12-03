@@ -100,7 +100,7 @@ def treat_central(page, output_folder = "_site"):
     try:
         with open(page["folder"] + page["filename"], "r") as fin:
             page["content"] = fin.read()
-        except:
+    except:
             page["content"] = ""
     template = templateEnv.get_template(page["template"] + ".html")
     page["content"] = md.markdown(content)
