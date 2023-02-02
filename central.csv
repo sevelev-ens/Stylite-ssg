@@ -1,4 +1,4 @@
-endpoint,template,folder,filename,prev,next,title,author,lang
+endpoint,template,dir,filename,prev,next,title,author,lang
 /,default,,index.md,,,Main,,fr
 /002/,default,folder/,002.md,/,/about/,Contes,Gilles Pagès,fr
 /search/,default,,search.md,,,Chercher,,fr
