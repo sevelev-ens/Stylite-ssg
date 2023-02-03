@@ -100,7 +100,7 @@ class MyServer(BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header('Content-type', mimetypes.guess_type(self.path))
             self.end_headers()
-            with open(self.path, "rb") as fin:
+            with open("."+self.path, "rb") as fin:
                 self.wfile.write(fin.read())
             
 
