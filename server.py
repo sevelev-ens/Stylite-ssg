@@ -9,6 +9,7 @@ from pathlib import Path
 import os
 import glob
 from datetime import date
+import mimetypes
 
 
 # Open the file and load the file
@@ -88,21 +89,24 @@ class MyServer(BaseHTTPRequestHandler):
             self.send_response(200)
             if self.path.endswith('.css'):
                 self.send_header('Content-type', 'text/css')
-            elif self.path.endswith('.json'):
-                self.send_header('Content-type', 'application/javascript')
-            elif self.path.endswith('.js'):
-                self.send_header('Content-type', 'application/javascript')
-            elif self.path.endswith('.ico'):
-                self.send_header('Content-type', 'image/x-icon')
-            elif self.path.endswith('.png'):
-                self.send_header('Content-type', 'image/png')
-            else:
-                self.send_header('Content-type', 'text/html')
+            self.send_header('Content-type', mimetypes.guess_type(self.path))
             self.end_headers()
             info = static[static["endpoint"]==self.path].iloc[0]
             with open(info["dir"] + info["filename"], "rb") as fin:
                 self.wfile.write(fin.read())
+        
+        ## try to render anyway
+        elif os.path.isfile("."+self.path):
+            self.send_response(200)
+            self.send_header('Content-type', mimetypes.guess_type(self.path))
+            self.end_headers()
+            with open(self.path, "rb") as fin:
+                self.wfile.write(fin.read())
             
+
+
+
+
         else:
             self.send_response(404)
             self.send_header("Content-type", "text/html")
