@@ -10,6 +10,7 @@ import os
 import glob
 from datetime import date
 import mimetypes
+from urllib.parse import unquote
 
 
 # Open the file and load the file
@@ -54,12 +55,16 @@ for filename in glob.glob("_data/*"):
         data[proper_filename] = pd.read_csv(filename, keep_default_na=False).to_dict('records')
     elif file_ext == "yml":
         with open(filename, "r") as fin:
-            data[proper_filename] = yaml.safe_load(fin)   
+            data[proper_filename] = yaml.safe_load(fin) 
 
 sitedict["data"] = data
+sitedict["materialfolder_files"] = glob.glob(sitedict["materialfolder"]+"/**/*", recursive=True)
+
+
 
 class MyServer(BaseHTTPRequestHandler):
     def do_GET(self):
+        self.path = unquote(self.path)
         if self.path.endswith("index.html"):
             self.path = self.path[:-10]
         if self.path in endpoints:
